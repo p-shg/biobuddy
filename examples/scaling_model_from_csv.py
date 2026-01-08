@@ -83,14 +83,6 @@ def main(visualization):
         )
     )
 
-    scaled_model = scale_tool.scale(
-        static_trial=csv_data,
-        mass=69.2,
-        q_regularization_weight=0.1,
-        make_static_pose_the_models_zero=False,
-        visualize_optimal_static_pose=False,
-    )
-
     # Scale the model
     scaled_model = scale_tool.scale(
         static_trial=csv_data,
