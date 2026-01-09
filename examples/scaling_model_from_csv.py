@@ -36,9 +36,8 @@ def main(visualization):
 
     # Static trial
     static_filepath = parent_path + "/examples/data/02_static.csv"
-    csv_data = CsvData(
-        csv_path=static_filepath,
-    )
+    # static_filepath = parent_path + "/examples/data/02_13_1.csv"
+    csv_data = CsvData(csv_path=static_filepath, first_frame=0, last_frame=10)
 
     # Paths
     current_path_file = Path(__file__).parent
@@ -49,6 +48,77 @@ def main(visualization):
     model = BiomechanicalModelReal().from_biomod(filepath=biomod_filepath)
 
     scale_tool = ScaleTool(original_model=model)
+    scale_tool.add_scaling_segment(
+        SegmentScaling(
+            name="Pelvis",
+            scaling_type=SegmentWiseScaling(
+                axis=Translations.XYZ,
+                marker_pairs=[
+                    ["SA_3", "CS_1"],
+                    ["SA_3", "CS_2"],
+                    ["SA_3", "CS_3"],
+                    ["SA_3", "CS_4"],
+                ],
+            ),
+        )
+    )
+    scale_tool.add_scaling_segment(
+        SegmentScaling(
+            name="Thorax",
+            scaling_type=SegmentWiseScaling(
+                axis=Translations.XYZ,
+                marker_pairs=[
+                    ["SA_3", "CS_1"],
+                    ["SA_3", "CS_2"],
+                    ["SA_3", "CS_3"],
+                    ["SA_3", "CS_4"],
+                ],
+            ),
+        )
+    )
+    scale_tool.add_scaling_segment(
+        SegmentScaling(
+            name="Spine",
+            scaling_type=SegmentWiseScaling(
+                axis=Translations.XYZ,
+                marker_pairs=[
+                    ["SA_3", "CS_1"],
+                    ["SA_3", "CS_2"],
+                    ["SA_3", "CS_3"],
+                    ["SA_3", "CS_4"],
+                ],
+            ),
+        )
+    )
+    scale_tool.add_scaling_segment(
+        SegmentScaling(
+            name="Clavicle",
+            scaling_type=SegmentWiseScaling(
+                axis=Translations.XYZ,
+                marker_pairs=[
+                    ["SA_3", "CS_1"],
+                    ["SA_3", "CS_2"],
+                    ["SA_3", "CS_3"],
+                    ["SA_3", "CS_4"],
+                ],
+            ),
+        )
+    )
+    scale_tool.add_scaling_segment(
+        SegmentScaling(
+            name="Scapula",
+            scaling_type=SegmentWiseScaling(
+                axis=Translations.XYZ,
+                marker_pairs=[
+                    ["SA_3", "CS_1"],
+                    ["SA_3", "CS_2"],
+                    ["SA_3", "CS_3"],
+                    ["SA_3", "CS_4"],
+                ],
+            ),
+        )
+    )
+
     scale_tool.add_scaling_segment(
         SegmentScaling(
             name="Arm",
@@ -67,6 +137,7 @@ def main(visualization):
                 axis=Translations.XYZ,
                 marker_pairs=[
                     ["WRB", "ELB_M"],
+                    ["WRA", "WRB"],
                 ],
             ),
         )
@@ -78,6 +149,7 @@ def main(visualization):
                 axis=Translations.XYZ,
                 marker_pairs=[
                     ["WRA", "ELB_M"],
+                    ["WRA", "WRB"],
                 ],
             ),
         )
@@ -88,8 +160,8 @@ def main(visualization):
         static_trial=csv_data,
         mass=70,
         q_regularization_weight=0.01,
-        make_static_pose_the_models_zero=False,
-        visualize_optimal_static_pose=False,
+        make_static_pose_the_models_zero=True,
+        visualize_optimal_static_pose=True,
     )
 
     # Write the scaled model to a .bioMod file
